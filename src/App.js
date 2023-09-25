@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from 'axios';
 import BookCreate from './Components/BookCreate';
 import BookList from './Components/BookList';
 
@@ -6,15 +7,24 @@ function App () {
 
     const [books, setBooks] = useState([]);
 
+    const fetchBooks =async () =>{
+        const response = await axios.get('http://localhost:3001/books');
+
+        setBooks (response.data);
+    }
+    useEffect (() => {
+        fetchBooks();
+    }, [] );
+    
     // createBook is really handleBookCreate
-    const createBook = (title) =>{
+    const createBook = async (title) =>{
+        const response = await axios.post('http://localhost:3001/books', {
+            title
+        });
         const updatedBooks = [
-            ...books,
-            {id: Math.round(Math.random()*9999),
-                 title}
+            ...books, response.data
         ];
         setBooks(updatedBooks);
-        console.log("Add book with title: " + title);
     }; 
 
     const deleteBookById =(id) =>{
