@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import App from "../App";
+import BooksContext from "../Context/books";
 
-function BookCreate ({onCreate}) {
+function BookCreate () {
 
     const [title, setTitle] = useState('');
+    const {createBook} = useContext(BooksContext);
 
     //event handler when user changes what is in the input text box
     const handleChange = (event) => {
@@ -12,7 +14,7 @@ function BookCreate ({onCreate}) {
     //event handler for clicking the Add Book button or pressing enter
     const handleSubmit = (event) => {
         event.preventDefault();
-        onCreate(title);
+        createBook(title);
         //clear the input field by updating title piece of state
         setTitle('');
 
